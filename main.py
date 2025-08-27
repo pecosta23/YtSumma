@@ -40,4 +40,9 @@ def text_summa(text, model_path='./models/llama-2-7b-chat.Q4_0.gguf'):
 
 #main
 if __name__ == "__main__":
-    
+    video_url = input("Put here the URL of the YT video: ")
+    audio_file = audio_download(video_url)
+    transcription = audio_transcribe(audio_file)
+    summary = text_summa(transcription)
+    print("\nTopics:\n")
+    print(summary)
