@@ -6,3 +6,4 @@ accelerate
 bitsandbytes
 sentencepiece
 huggingface-hub
+fpdf
