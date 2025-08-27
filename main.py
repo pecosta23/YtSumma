@@ -5,7 +5,7 @@ import torch
 import os
 
 #get yt audio 
-def audio_download(url, output_path='audio.mp3'):
+def audio_download(url, output_path='audio'):
     mp3_config = {
         'format': 'bestaudio/best',
         'postprocessors': [{
@@ -17,7 +17,7 @@ def audio_download(url, output_path='audio.mp3'):
     }
     with yt_dlp.YoutubeDL(mp3_config) as ydl:
         ydl.download([url])
-    return output_path
+    return output_path + '.mp3'
 
 #transcribes the audio
 def audio_transcribe(audio_path, model_name='small'):
@@ -30,7 +30,7 @@ def audio_transcribe(audio_path, model_name='small'):
 #summarize in topics (Llama)
 def text_summa(text, model_path='./models/llama-2-7b-chat.Q4_0.gguf'):
     from llama_cpp import Llama
-    model = Llama(model_path, n_ctx=2048) #text size
+    model = Llama(model_path, n_ctx=2048) #context size
 
     prompt = f"Please resume the next text in principal topics(bullet points), get me the key dots: {text[:4000]}"
 
@@ -40,7 +40,7 @@ def text_summa(text, model_path='./models/llama-2-7b-chat.Q4_0.gguf'):
 
 #main
 if __name__ == "__main__":
-    video_url = input("Put here the URL of the YT video: ")
+    video_url = input("URL of the YT video: ")
     audio_file = audio_download(video_url)
     transcription = audio_transcribe(audio_file)
     summary = text_summa(transcription)
